@@ -7,12 +7,13 @@ import com.example.androidlibrary.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity(), IMainView {
 
     lateinit var binding: ActivityMainBinding
-    private val presenter = MainPresenter(this)
+    lateinit var presenter : MainPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        presenter.attachView(this)
         initViewButtons()
     }
 
@@ -32,5 +33,10 @@ class MainActivity : AppCompatActivity(), IMainView {
 
     override fun setButtonThirdText(text: String) {
         binding.buttonCounterThird.text = text
+    }
+
+    override fun onDestroy() {
+        presenter.detachView()
+        super.onDestroy()
     }
 }

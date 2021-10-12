@@ -1,6 +1,8 @@
 package com.example.androidlibrary.mvp
 
-class MainPresenter(private val view: IMainView) {
+import android.view.View
+
+class MainPresenter(private val view: IMainView) : IMainPresenter {
     private val model = CountersModel()
 
     fun counterClick(position: Int) {
@@ -18,6 +20,15 @@ class MainPresenter(private val view: IMainView) {
                 view.setButtonThirdText(nextValue.toString())
             }
         }
+    }
+
+    override fun attachView(view: View) {
+        TODO("Not yet implemented")
+    }
+
+    override fun detachView() {
+        //FIXME
+        this.view = null
     }
 }
 
