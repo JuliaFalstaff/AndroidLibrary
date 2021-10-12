@@ -1,6 +1,7 @@
 package com.example.androidlibrary.mvp
 
 interface IMainView {
-    fun setButtonText(index: Int, text: String)
- 
+    fun setButtonFirstText(text: String)
+    fun setButtonSecondText(text: String)
+    fun setButtonThirdText(text: String)
 }
