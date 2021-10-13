@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity(), IMainView {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        presenter.attachView(this)
+        presenter = MainPresenter(this)
         initViewButtons()
     }
 

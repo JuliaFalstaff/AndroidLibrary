@@ -2,32 +2,31 @@ package com.example.androidlibrary.mvp
 
 import android.view.View
 
-class MainPresenter(private val view: IMainView) : IMainPresenter {
+class MainPresenter(var view: IMainView?) : IMainPresenter {
     private val model = CountersModel()
 
     fun counterClick(position: Int) {
         when (position) {
             CounterPosition.FIRST.position -> {
                 val nextValue = model.next(CounterPosition.FIRST.position)
-                view.setButtonFirstText(nextValue.toString())
+                view?.setButtonFirstText(nextValue.toString())
             }
             CounterPosition.SECOND.position -> {
                 val nextValue = model.next(CounterPosition.SECOND.position)
-                view.setButtonSecondText(nextValue.toString())
+                view?.setButtonSecondText(nextValue.toString())
             }
             CounterPosition.THIRD.position -> {
                 val nextValue = model.next(CounterPosition.THIRD.position)
-                view.setButtonThirdText(nextValue.toString())
+                view?.setButtonThirdText(nextValue.toString())
             }
         }
     }
 
-    override fun attachView(view: View) {
-        TODO("Not yet implemented")
+    override fun attachView(mainView: IMainView) {
+        this.view = mainView
     }
 
     override fun detachView() {
-        //FIXME
         this.view = null
     }
 }
