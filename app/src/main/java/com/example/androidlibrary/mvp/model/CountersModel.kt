@@ -1,4 +1,4 @@
-package com.example.androidlibrary.mvp
+package com.example.androidlibrary.mvp.model
 
 class CountersModel {
     private val counters = mutableListOf(0, 0, 0)

@@ -1,4 +1,4 @@
-package com.example.androidlibrary.mvp
+package com.example.androidlibrary.mvp.view
 
 interface IMainView {
     fun setButtonFirstText(text: String)

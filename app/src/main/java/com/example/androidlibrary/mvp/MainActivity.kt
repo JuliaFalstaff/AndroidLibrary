@@ -3,16 +3,21 @@ package com.example.androidlibrary.mvp
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.androidlibrary.databinding.ActivityMainBinding
+import com.example.androidlibrary.mvp.presenter.CounterPosition
+import com.example.androidlibrary.mvp.presenter.MainPresenter
+import com.example.androidlibrary.mvp.view.IMainView
 
 class MainActivity : AppCompatActivity(), IMainView {
 
     lateinit var binding: ActivityMainBinding
-    private val presenter = MainPresenter(this)
+    lateinit var presenter : MainPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        presenter = MainPresenter(this)
+        presenter.attachView(this)
         initViewButtons()
     }
 
@@ -32,5 +37,10 @@ class MainActivity : AppCompatActivity(), IMainView {
 
     override fun setButtonThirdText(text: String) {
         binding.buttonCounterThird.text = text
+    }
+
+    override fun onDestroy() {
+        presenter.detachView()
+        super.onDestroy()
     }
 }
