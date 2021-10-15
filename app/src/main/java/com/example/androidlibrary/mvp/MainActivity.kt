@@ -1,23 +1,23 @@
 package com.example.androidlibrary.mvp
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import com.example.androidlibrary.databinding.ActivityMainBinding
+import com.example.androidlibrary.mvp.model.CountersModel
 import com.example.androidlibrary.mvp.presenter.CounterPosition
 import com.example.androidlibrary.mvp.presenter.MainPresenter
 import com.example.androidlibrary.mvp.view.IMainView
+import moxy.MvpAppCompatActivity
+import moxy.ktx.moxyPresenter
 
-class MainActivity : AppCompatActivity(), IMainView {
+class MainActivity : MvpAppCompatActivity(), IMainView {
 
     lateinit var binding: ActivityMainBinding
-    lateinit var presenter : MainPresenter
+    private val presenter by moxyPresenter { MainPresenter(CountersModel()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        presenter = MainPresenter(this)
-        presenter.attachView(this)
         initViewButtons()
     }
 
@@ -40,7 +40,6 @@ class MainActivity : AppCompatActivity(), IMainView {
     }
 
     override fun onDestroy() {
-        presenter.detachView()
         super.onDestroy()
     }
 }
