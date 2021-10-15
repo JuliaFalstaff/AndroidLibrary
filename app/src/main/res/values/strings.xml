@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">AndroidLibrary</string>
+    <string name="counterSecond">Counter 2</string>
+    <string name="counterThird">Counter 3</string>
+    <string name="counterFirst">Counter 1</string>
+    <string name="counterText">0</string>
 </resources>
