@@ -1,42 +1,18 @@
 package com.example.androidlibrary.mvp.presenter
 
-import com.example.androidlibrary.mvp.model.GithubUser
-import com.example.androidlibrary.mvp.model.GithubUsersRepo
 import com.example.androidlibrary.mvp.view.IMainView
-import com.example.androidlibrary.mvp.view.IUserItemView
+import com.example.androidlibrary.mvp.view.IScreens
+import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
 
-class MainPresenter(val usersRepo: GithubUsersRepo) : MvpPresenter<IMainView>() {
-
-    class UsersListPresenter : IUserListPresenter {
-        val users = mutableListOf<GithubUser>()
-
-        override var itemClickListener: ((IUserItemView) -> Unit)? = null
-
-        override fun bindView(view: IUserItemView) {
-            val user = users[view.positionItem]
-            view.setLogin(user.login)
-        }
-
-        override fun getCount() = users.size
-    }
-
-    val usersListPresenter = UsersListPresenter()
+class MainPresenter(val router : Router, val screen: IScreens) : MvpPresenter<IMainView>() {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        viewState.init()
-        loadData()
-
-        usersListPresenter.itemClickListener = { userItemView ->
-            //TODO переход на экран пользователя
-        }
+        router.replaceScreen(screen.users())
     }
 
-    private fun loadData() {
-        val users = usersRepo.getUsers()
-        usersListPresenter.users.addAll(users)
-        viewState.updateList()
+    fun backClicked() {
+        router.exit()
     }
-
 }
