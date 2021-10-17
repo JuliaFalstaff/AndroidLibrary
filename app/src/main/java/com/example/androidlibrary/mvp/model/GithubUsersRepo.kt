@@ -5,7 +5,7 @@ class GithubUsersRepo {
         GithubUser("Login $it")
     }
 
-    fun getUsers() : List<GithubUser> {
+    fun getUsers(): List<GithubUser> {
         return repositories
     }
 }

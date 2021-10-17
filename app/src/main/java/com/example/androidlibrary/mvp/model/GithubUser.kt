@@ -1,7 +1,6 @@
 package com.example.androidlibrary.mvp.model
 
 import android.os.Parcelable
-import android.widget.ImageView
 import com.example.androidlibrary.R
 import kotlinx.android.parcel.Parcelize
 

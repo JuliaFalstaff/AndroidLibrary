@@ -2,10 +2,10 @@ package com.example.androidlibrary.mvp.presenter
 
 import com.example.androidlibrary.mvp.model.GithubUser
 import com.example.androidlibrary.mvp.model.GithubUsersRepo
-import com.example.androidlibrary.mvp.view.*
+import com.example.androidlibrary.mvp.view.IScreens
+import com.example.androidlibrary.mvp.view.IUserItemView
+import com.example.androidlibrary.mvp.view.UsersView
 import com.github.terrakok.cicerone.Router
-import com.github.terrakok.cicerone.Screen
-import com.github.terrakok.cicerone.androidx.FragmentScreen
 import moxy.MvpPresenter
 
 class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router, val screen: IScreens) :

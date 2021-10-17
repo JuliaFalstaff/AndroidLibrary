@@ -19,7 +19,13 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     }
 
     private var binding: FragmentUsersBinding? = null
-    val presenter by moxyPresenter { UsersPresenter(GithubUsersRepo(), App.instance.router, AndroidScreens()) }
+    val presenter by moxyPresenter {
+        UsersPresenter(
+            GithubUsersRepo(),
+            App.instance.router,
+            AndroidScreens()
+        )
+    }
     private var adapter: UsersAdapter? = null
 
     override fun onCreateView(
@@ -30,7 +36,6 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
         FragmentUsersBinding.inflate(inflater, container, false).also {
             binding = it
         }.root
-
 
     override fun init() {
         binding?.run {

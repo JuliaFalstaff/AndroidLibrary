@@ -27,4 +27,3 @@ class DetailedUsersPresenter(
         return true
     }
 }
-

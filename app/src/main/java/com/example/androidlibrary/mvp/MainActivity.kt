@@ -1,13 +1,10 @@
 package com.example.androidlibrary.mvp
 
 import android.os.Bundle
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.androidlibrary.App
 import com.example.androidlibrary.R
 import com.example.androidlibrary.databinding.ActivityMainBinding
-import com.example.androidlibrary.mvp.model.GithubUsersRepo
 import com.example.androidlibrary.mvp.presenter.MainPresenter
-import com.example.androidlibrary.mvp.presenter.UsersPresenter
 import com.example.androidlibrary.mvp.view.AndroidScreens
 import com.example.androidlibrary.mvp.view.BackButtonListener
 import com.example.androidlibrary.mvp.view.IMainView
