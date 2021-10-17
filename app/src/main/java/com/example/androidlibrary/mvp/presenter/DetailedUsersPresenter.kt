@@ -9,6 +9,11 @@ import moxy.MvpPresenter
 class DetailedUsersPresenter(val usersRepo: GithubUsersRepo, val router: Router, val screen: IScreens) :
     MvpPresenter<IDetailedUserView>() {
 
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        viewState.init()
+    }
+
     fun setUserLogin(position: Int) {
         usersRepo.getUsers()[position].login
     }

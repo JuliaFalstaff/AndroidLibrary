@@ -13,7 +13,12 @@ import moxy.ktx.moxyPresenter
 
 class DetailedUserFragment(val positionUser: Int) : MvpAppCompatFragment(), IDetailedUserView, BackButtonListener {
     companion object {
-        fun newInstance(positionUser: Int) = DetailedUserFragment(positionUser)
+        private const val ID_LOGIN = "id_login"
+        fun newInstance(positionUser: Int) = DetailedUserFragment(positionUser).apply {
+            arguments = Bundle().apply {
+                putInt(ID_LOGIN, positionUser)
+            }
+        }
     }
 
     private var binding: FragmentDetailedUserBinding? = null
@@ -35,6 +40,10 @@ class DetailedUserFragment(val positionUser: Int) : MvpAppCompatFragment(), IDet
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
+    }
+
+    override fun init() {
+        TODO("Not yet implemented")
     }
 
     override fun setUserLogin(loginUser: String) {
