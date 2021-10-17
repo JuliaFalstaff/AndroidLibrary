@@ -26,4 +26,6 @@ class DetailedUsersPresenter(
         router.backTo(screen.users())
         return true
     }
+
+    fun getAvatar(position: Int) = usersRepo.getUsers()[position].loginImage.toInt()
 }

@@ -51,6 +51,7 @@ class DetailedUserFragment(val positionUser: Int) : MvpAppCompatFragment(), IDet
 
     override fun setUserLogin() {
         binding?.textViewLoginUser?.text = presenter.setUserLogin(positionUser)
+        binding?.imageViewAvatar?.setImageResource(presenter.getAvatar(positionUser))
     }
 
     override fun backPressed(): Boolean {
