@@ -11,14 +11,9 @@ import com.example.androidlibrary.mvp.presenter.DetailedUsersPresenter
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
-class DetailedUserFragment(val positionUser: Int) : MvpAppCompatFragment(), IDetailedUserView, BackButtonListener {
+class DetailedUserFragment(var positionUser: Int) : MvpAppCompatFragment(), IDetailedUserView, BackButtonListener {
     companion object {
-        private const val ID_LOGIN = "id_login"
-        fun newInstance(positionUser: Int) = DetailedUserFragment(positionUser).apply {
-            arguments = Bundle().apply {
-                putInt(ID_LOGIN, positionUser)
-            }
-        }
+        fun newInstance(positionUser: Int) = DetailedUserFragment(positionUser)
     }
 
     private var binding: FragmentDetailedUserBinding? = null
@@ -35,6 +30,7 @@ class DetailedUserFragment(val positionUser: Int) : MvpAppCompatFragment(), IDet
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        init()
     }
 
     override fun onDestroyView() {
@@ -43,11 +39,11 @@ class DetailedUserFragment(val positionUser: Int) : MvpAppCompatFragment(), IDet
     }
 
     override fun init() {
-        TODO("Not yet implemented")
+        setUserLogin()
     }
 
-    override fun setUserLogin(loginUser: String) {
-        binding?.textViewLoginUser?.text = presenter.setUserLogin(positionUser).toString()
+    override fun setUserLogin() {
+        binding?.textViewLoginUser?.text = presenter.setUserLogin(positionUser)
     }
 
     override fun backPressed(): Boolean {

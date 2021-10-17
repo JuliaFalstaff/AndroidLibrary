@@ -14,8 +14,8 @@ class DetailedUsersPresenter(val usersRepo: GithubUsersRepo, val router: Router,
         viewState.init()
     }
 
-    fun setUserLogin(position: Int) {
-        usersRepo.getUsers()[position].login
+    fun setUserLogin(position: Int): String {
+       return usersRepo.getUsers()[position].login
     }
 
     fun onBackCommandClick(): Boolean {
