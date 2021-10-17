@@ -4,15 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.androidlibrary.App
 import com.example.androidlibrary.databinding.FragmentDetailedUserBinding
+import com.example.androidlibrary.mvp.model.GithubUsersRepo
+import com.example.androidlibrary.mvp.presenter.DetailedUsersPresenter
 import moxy.MvpAppCompatFragment
+import moxy.ktx.moxyPresenter
 
-class DetailedUserFragment : MvpAppCompatFragment(){
+class DetailedUserFragment(val positionUser: Int) : MvpAppCompatFragment(), IDetailedUserView, BackButtonListener {
     companion object {
-        fun newInstance() = DetailedUserFragment()
+        fun newInstance(positionUser: Int) = DetailedUserFragment(positionUser)
     }
 
     private var binding: FragmentDetailedUserBinding? = null
+    val presenter by moxyPresenter { DetailedUsersPresenter(GithubUsersRepo(), App.instance.router, AndroidScreens()) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,9 +28,20 @@ class DetailedUserFragment : MvpAppCompatFragment(){
             binding = it
         }.root
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
     }
 
+    override fun setUserLogin(loginUser: String) {
+        binding?.textViewLoginUser?.text = presenter.setUserLogin(positionUser).toString()
+    }
+
+    override fun backPressed(): Boolean {
+        return presenter.onBackCommandClick()
+    }
 }

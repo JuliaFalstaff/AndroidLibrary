@@ -8,7 +8,7 @@ import com.github.terrakok.cicerone.Screen
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import moxy.MvpPresenter
 
-class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router) :
+class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router, val screen: IScreens) :
     MvpPresenter<UsersView>() {
 
     class UsersListPresenter : IUserListPresenter {
@@ -30,10 +30,13 @@ class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router) :
         super.onFirstViewAttach()
         viewState.init()
         loadData()
-
         usersListPresenter.itemClickListener = { userItemView ->
-
+            openDetailedUserInfo(userItemView)
         }
+    }
+
+    private fun openDetailedUserInfo(userItemView: IUserItemView) {
+        router.navigateTo(screen.detailedUser(userItemView.positionItem))
     }
 
     private fun loadData() {
@@ -46,7 +49,4 @@ class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router) :
         router.exit()
         return true
     }
-
-
-
 }

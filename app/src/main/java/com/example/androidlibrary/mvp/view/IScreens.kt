@@ -4,6 +4,6 @@ import com.github.terrakok.cicerone.Screen
 
 interface IScreens {
     fun users(): Screen
-    fun detailedUser(): Screen
+    fun detailedUser(positionUser: Int): Screen
 }
 
