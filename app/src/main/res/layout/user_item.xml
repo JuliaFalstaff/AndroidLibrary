@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="100dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/cardview_height"
     android:layout_marginBottom="@dimen/padding_10dp"
-    android:elevation="8dp"
-    app:cardCornerRadius="8dp">
+    android:elevation="@dimen/cardview_elevation"
+    app:cardCornerRadius="@dimen/cardview_corner">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -15,9 +16,9 @@
             android:id="@+id/textViewLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/login_size"
             android:paddingStart="@dimen/padding_10dp"
             android:paddingEnd="@dimen/padding_10dp"
+            android:textSize="@dimen/login_size"
             tools:text="Login" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
