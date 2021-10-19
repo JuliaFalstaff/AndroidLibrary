@@ -1,0 +1,52 @@
+package com.example.androidlibrary.mvp.presenter
+
+import com.example.androidlibrary.mvp.model.GithubUser
+import com.example.androidlibrary.mvp.model.GithubUsersRepo
+import com.example.androidlibrary.mvp.view.IScreens
+import com.example.androidlibrary.mvp.view.IUserItemView
+import com.example.androidlibrary.mvp.view.UsersView
+import com.github.terrakok.cicerone.Router
+import moxy.MvpPresenter
+
+class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router, val screen: IScreens) :
+    MvpPresenter<UsersView>() {
+
+    class UsersListPresenter : IUserListPresenter {
+        val users = mutableListOf<GithubUser>()
+
+        override var itemClickListener: ((IUserItemView) -> Unit)? = null
+
+        override fun bindView(view: IUserItemView) {
+            val user = users[view.positionItem]
+            view.setLogin(user.login)
+        }
+
+        override fun getCount() = users.size
+    }
+
+    val usersListPresenter = UsersListPresenter()
+
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        viewState.init()
+        loadData()
+        usersListPresenter.itemClickListener = { userItemView ->
+            openDetailedUserInfo(userItemView)
+        }
+    }
+
+    private fun openDetailedUserInfo(userItemView: IUserItemView) {
+        router.navigateTo(screen.detailedUser(userItemView.positionItem))
+    }
+
+    private fun loadData() {
+        val users = usersRepo.getUsers()
+        usersListPresenter.users.addAll(users)
+        viewState.updateList()
+    }
+
+    fun backPressed(): Boolean {
+        router.exit()
+        return true
+    }
+}

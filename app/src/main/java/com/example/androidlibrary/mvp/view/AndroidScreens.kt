@@ -1,0 +1,14 @@
+package com.example.androidlibrary.mvp.view
+
+import com.github.terrakok.cicerone.Screen
+import com.github.terrakok.cicerone.androidx.FragmentScreen
+
+class AndroidScreens : IScreens {
+    override fun users(): Screen {
+        return FragmentScreen { UsersFragment.newInstance() }
+    }
+
+    override fun detailedUser(positionUser: Int): Screen {
+        return FragmentScreen { DetailedUserFragment.newInstance(positionUser) }
+    }
+}
