@@ -1,6 +1,7 @@
 package com.example.androidlibrary.mvp.presenter
 
 import android.util.Log
+import com.example.androidlibrary.R
 import com.example.androidlibrary.mvp.model.GithubUser
 import com.example.androidlibrary.mvp.model.GithubUsersRepo
 import com.example.androidlibrary.mvp.view.IScreens
@@ -52,7 +53,7 @@ class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router, val scr
                     usersListPresenter.users.add(user)
                 },
                 { e -> Log.i(RX_TAG, e?.localizedMessage.toString()) },
-                { Log.i(RX_TAG, "onCompete") }
+                { Log.i(RX_TAG, R.string.onComplete.toString()) }
         )
     }
 
