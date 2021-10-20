@@ -30,6 +30,7 @@ class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router, val scr
 
     val usersListPresenter = UsersListPresenter()
     val users = usersRepo.getUsers()
+    private var disposable: Disposable? = null
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -54,6 +55,11 @@ class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router, val scr
         Consumer(Producer()).execFromIterable()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        disposable?.dispose()
+    }
+
     //Observable
     inner class Producer() {
         fun fromIterable(): Observable<GithubUser> {
@@ -64,7 +70,6 @@ class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router, val scr
     inner class Consumer(val producer: Producer) {
 
         val userObserver = object : Observer<GithubUser> {
-            var disposable: Disposable? = null
             override fun onSubscribe(d: Disposable?) {
                 disposable = d
                 Log.i(RX_TAG, d.toString())
