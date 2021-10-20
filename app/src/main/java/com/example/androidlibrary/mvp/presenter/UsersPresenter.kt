@@ -8,7 +8,6 @@ import com.example.androidlibrary.mvp.view.IUserItemView
 import com.example.androidlibrary.mvp.view.UsersView
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
 
@@ -29,13 +28,12 @@ class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router, val scr
     }
 
     val usersListPresenter = UsersListPresenter()
-    val users = usersRepo.getUsers()
     private var disposable: Disposable? = null
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         viewState.init()
-        exec()
+        loadData()
         viewState.updateList()
         usersListPresenter.itemClickListener = { userItemView ->
             openDetailedUserInfo(userItemView)
@@ -46,13 +44,21 @@ class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router, val scr
         router.navigateTo(screen.detailedUser(userItemView.positionItem))
     }
 
+    private fun loadData() {
+        val producer = Producer()
+        disposable = producer.fromIterable().subscribe(
+                { user ->
+                    Log.i(RX_TAG, user.toString())
+                    usersListPresenter.users.add(user)
+                },
+                { e -> Log.i(RX_TAG, e?.localizedMessage.toString()) },
+                { Log.i(RX_TAG, "onCompete") }
+        )
+    }
+
     fun backPressed(): Boolean {
         router.exit()
         return true
-    }
-
-    private fun exec() {
-        Consumer(Producer()).execFromIterable()
     }
 
     override fun onDestroy() {
@@ -63,37 +69,7 @@ class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router, val scr
     //Observable
     inner class Producer() {
         fun fromIterable(): Observable<GithubUser> {
-            return Observable.fromIterable(users)
-        }
-    }
-
-    inner class Consumer(val producer: Producer) {
-
-        val userObserver = object : Observer<GithubUser> {
-            override fun onSubscribe(d: Disposable?) {
-                disposable = d
-                Log.i(RX_TAG, d.toString())
-            }
-
-            override fun onNext(t: GithubUser?) {
-                Log.i(RX_TAG, t.toString())
-                t?.let {
-                    usersListPresenter.users.add(it)
-                }
-            }
-
-            override fun onError(e: Throwable?) {
-                Log.i(RX_TAG, e?.localizedMessage.toString())
-            }
-
-            override fun onComplete() {
-                Log.i(RX_TAG, "onCompete")
-            }
-        }
-
-        fun execFromIterable() {
-            producer.fromIterable()
-                    .subscribe(userObserver)
+            return Observable.fromIterable(usersRepo.getUsers())
         }
     }
 
