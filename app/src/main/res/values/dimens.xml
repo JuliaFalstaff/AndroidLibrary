@@ -6,4 +6,5 @@
     <dimen name="cardview_elevation">8dp</dimen>
     <dimen name="cardview_corner">8dp</dimen>
     <dimen name="cardview_height">100dp</dimen>
+    <dimen name="marginStart_16dp">16dp</dimen>
 </resources>

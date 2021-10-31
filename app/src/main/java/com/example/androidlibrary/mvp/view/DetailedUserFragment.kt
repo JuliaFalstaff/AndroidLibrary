@@ -8,6 +8,7 @@ import com.example.androidlibrary.App
 import com.example.androidlibrary.databinding.FragmentDetailedUserBinding
 import com.example.androidlibrary.mvp.model.data.GithubUser
 import com.example.androidlibrary.mvp.presenter.DetailedUsersPresenter
+import com.example.androidlibrary.mvp.view.avatar.GlideImageLoader
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
@@ -25,6 +26,7 @@ class DetailedUserFragment : MvpAppCompatFragment(), IDetailedUserView,
     }
 
     private var binding: FragmentDetailedUserBinding? = null
+    private var imageloader = GlideImageLoader()
 
     val presenter by moxyPresenter {
         DetailedUsersPresenter(
@@ -54,6 +56,10 @@ class DetailedUserFragment : MvpAppCompatFragment(), IDetailedUserView,
 
     override fun setUserLogin(login: String?) {
         binding?.textViewLoginUser?.text = login
+    }
+
+    override fun setLoadAvatar(avatarUser: String?) {
+        binding?.let { imageloader.loadInto(avatarUser, it.imageViewAvatarDetailedUser) }
     }
 
     override fun backPressed(): Boolean {

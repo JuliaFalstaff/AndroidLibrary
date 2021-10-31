@@ -22,6 +22,7 @@ class UsersPresenter(val usersRepo: IGitHubUsersRepo, val router: Router, val sc
         override fun bindView(view: IUserItemView) {
             val user = users[view.positionItem]
             view.setLogin(user.login)
+            view.loadAvatar(user.avatar_url)
         }
 
         override fun getCount() = users.size

@@ -17,6 +17,7 @@ class DetailedUsersPresenter(
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         user?.login?.let { viewState.setUserLogin(it) }
+        user?.avatar_url.let { viewState.setLoadAvatar(it) }
     }
 
     fun onBackCommandClick(): Boolean {

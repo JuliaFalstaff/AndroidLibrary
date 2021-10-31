@@ -11,6 +11,7 @@ import com.example.androidlibrary.mvp.UsersAdapter
 import com.example.androidlibrary.mvp.model.GithubUsersRepoImpl
 import com.example.androidlibrary.mvp.model.RetrofitImpl
 import com.example.androidlibrary.mvp.presenter.UsersPresenter
+import com.example.androidlibrary.mvp.view.avatar.GlideImageLoader
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
@@ -41,7 +42,7 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     override fun init() {
         binding?.run {
             this.recyclerViewUsers.layoutManager = LinearLayoutManager(context)
-            adapter = UsersAdapter(presenter.usersListPresenter)
+            adapter = UsersAdapter(presenter.usersListPresenter, GlideImageLoader())
             this.recyclerViewUsers.adapter = adapter
         }
     }
