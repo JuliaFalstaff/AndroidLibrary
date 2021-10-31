@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.androidlibrary.App
 import com.example.androidlibrary.databinding.FragmentUsersBinding
 import com.example.androidlibrary.mvp.UsersAdapter
-import com.example.androidlibrary.mvp.model.GithubUsersRepo
+import com.example.androidlibrary.mvp.model.GithubUsersRepoImpl
+import com.example.androidlibrary.mvp.model.RetrofitImpl
 import com.example.androidlibrary.mvp.presenter.UsersPresenter
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
@@ -21,7 +22,7 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     private var binding: FragmentUsersBinding? = null
     val presenter by moxyPresenter {
         UsersPresenter(
-            GithubUsersRepo(),
+            GithubUsersRepoImpl(RetrofitImpl().api),
             App.instance.router,
             AndroidScreens()
         )
