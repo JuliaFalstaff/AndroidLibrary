@@ -2,7 +2,7 @@ package com.example.androidlibrary.mvp.presenter
 
 import android.util.Log
 import com.example.androidlibrary.mvp.model.data.GithubUser
-import com.example.androidlibrary.mvp.model.IGitHubUsersRepo
+import com.example.androidlibrary.mvp.model.user.IGitHubUsersRepo
 import com.example.androidlibrary.mvp.view.IScreens
 import com.example.androidlibrary.mvp.view.IUserItemView
 import com.example.androidlibrary.mvp.view.UsersView

@@ -1,4 +1,4 @@
-package com.example.androidlibrary.mvp
+package com.example.androidlibrary.mvp.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

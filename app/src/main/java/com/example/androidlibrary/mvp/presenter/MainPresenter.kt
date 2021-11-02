@@ -13,6 +13,6 @@ class MainPresenter(val router: Router, val screen: IScreens) : MvpPresenter<IMa
     }
 
     fun backClicked() {
-        router.exit()
+        router.backTo(screen.users())
     }
 }
