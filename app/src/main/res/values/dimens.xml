@@ -5,6 +5,8 @@
     <dimen name="detailed_login_size">30sp</dimen>
     <dimen name="cardview_elevation">8dp</dimen>
     <dimen name="cardview_corner">8dp</dimen>
-    <dimen name="cardview_height">100dp</dimen>
+    <dimen name="cardview_height">110dp</dimen>
     <dimen name="marginStart_16dp">16dp</dimen>
+    <dimen name="cardview_repo_height">70dp</dimen>
+    <dimen name="padding_top_5dp">5dp</dimen>
 </resources>

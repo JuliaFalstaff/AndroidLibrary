@@ -7,4 +7,6 @@
     <string name="login_title">Login </string>
     <string name="onComplete">"onComplete"</string>
     <string name="detailedUserHeader">List of Repositories</string>
+    <string name="repo_name">Name of Repository</string>
+    <string name="repo_url">Url of Repository</string>
 </resources>

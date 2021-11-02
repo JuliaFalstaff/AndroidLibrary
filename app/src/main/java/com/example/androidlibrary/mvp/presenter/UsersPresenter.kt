@@ -42,21 +42,21 @@ class UsersPresenter(val usersRepo: IGitHubUsersRepo, val router: Router, val sc
     }
 
     private fun openDetailedUserInfo(userItemView: IUserItemView) {
-        router.navigateTo(screen.detailedUser(usersListPresenter.users[userItemView.positionItem]))
+        router.navigateTo(screen.detailedUser(usersListPresenter.users[userItemView.positionItem].repos_url))
     }
 
     private fun loadData() {
 
         disposable.addAll(usersRepo.getUsersList()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { repos ->
-                    usersListPresenter.users.clear()
-                    usersListPresenter.users.addAll(repos)
-                    viewState.updateList()
-                },
-                { e -> Log.i(RX_TAG, e?.localizedMessage.toString()) },
-        ))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { repos ->
+                            usersListPresenter.users.clear()
+                            usersListPresenter.users.addAll(repos)
+                            viewState.updateList()
+                        },
+                        { e -> Log.i(RX_TAG, e?.localizedMessage.toString()) },
+                ))
 
     }
 
