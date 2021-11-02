@@ -7,5 +7,6 @@ import kotlinx.android.parcel.Parcelize
 data class GithubRepository(
         val id: Int,
         val name: String,
-        val forks_count: Int
+        val forks_count: Int,
+        val html_url: String?
 ) : Parcelable
