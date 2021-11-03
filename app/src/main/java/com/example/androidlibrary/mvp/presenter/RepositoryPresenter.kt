@@ -43,9 +43,13 @@ class RepositoryPresenter(
         viewState.init()
         loadData()
 
-        repositoriesListPresenter.itemClickListener = {
-            //TODO open forks count
+        repositoriesListPresenter.itemClickListener = { repoId ->
+            openRepoInformation(repoId)
         }
+    }
+
+    private fun openRepoInformation(repoId: IRepositoryItemView) {
+        router.navigateTo(screen.detailedUserRepo(repositoriesListPresenter.repositories[repoId.positionItem]))
     }
 
     private fun loadData() {
@@ -61,7 +65,6 @@ class RepositoryPresenter(
                 )
         )
     }
-
 
     fun onBackCommandClick(): Boolean {
         router.backTo(screen.users())
