@@ -1,4 +1,4 @@
-package com.example.androidlibrary.mvp
+package com.example.androidlibrary.mvp.network
 
 import android.content.Context
 import android.net.ConnectivityManager

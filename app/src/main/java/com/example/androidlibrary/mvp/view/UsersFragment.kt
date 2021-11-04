@@ -9,12 +9,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.androidlibrary.App
 import com.example.androidlibrary.databinding.FragmentUsersBinding
 import com.example.androidlibrary.mvp.adapter.UsersAdapter
+import com.example.androidlibrary.mvp.model.retrofit.GitHubSourceImpl
 import com.example.androidlibrary.mvp.model.retrofit.RetrofitImpl
-import com.example.androidlibrary.mvp.model.user.GithubUsersRepoImpl
+import com.example.androidlibrary.mvp.model.retrofit.RetrofitUsersReposImpl
+import com.example.androidlibrary.mvp.model.room.AppDataBase
+import com.example.androidlibrary.mvp.model.room.RoomDataBaseImpl
+import com.example.androidlibrary.mvp.network.AndroidNetworkStatus
 import com.example.androidlibrary.mvp.presenter.UsersPresenter
 import com.example.androidlibrary.mvp.view.avatar.GlideImageLoader
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+
 
 class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     companion object {
@@ -24,7 +29,8 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     private var binding: FragmentUsersBinding? = null
     val presenter by moxyPresenter {
         UsersPresenter(
-                GithubUsersRepoImpl(RetrofitImpl().api),
+            GitHubSourceImpl(RetrofitUsersReposImpl(RetrofitImpl().api),
+                RoomDataBaseImpl(AppDataBase.getDatabase(requireContext())), AndroidNetworkStatus(requireContext())),
                 App.instance.router,
                 AndroidScreens()
         )

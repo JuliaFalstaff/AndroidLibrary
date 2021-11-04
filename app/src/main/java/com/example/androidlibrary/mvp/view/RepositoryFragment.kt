@@ -10,7 +10,11 @@ import com.example.androidlibrary.App
 import com.example.androidlibrary.databinding.FragmentRepositoryBinding
 import com.example.androidlibrary.mvp.adapter.RepositoriesAdapter
 import com.example.androidlibrary.mvp.model.retrofit.RetrofitImpl
-import com.example.androidlibrary.mvp.model.githubrepositories.GitHubRepositoryImpl
+import com.example.androidlibrary.mvp.model.retrofit.GitHubSourceImpl
+import com.example.androidlibrary.mvp.model.retrofit.RetrofitUsersReposImpl
+import com.example.androidlibrary.mvp.model.room.AppDataBase
+import com.example.androidlibrary.mvp.model.room.RoomDataBaseImpl
+import com.example.androidlibrary.mvp.network.AndroidNetworkStatus
 import com.example.androidlibrary.mvp.presenter.RepositoryPresenter
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
@@ -34,7 +38,9 @@ class RepositoryFragment : MvpAppCompatFragment(), IRepositoryView,
     val presenter by moxyPresenter {
         RepositoryPresenter(
                 (arguments?.getString(REPO)),
-                GitHubRepositoryImpl(RetrofitImpl().api),
+                GitHubSourceImpl(
+                RetrofitUsersReposImpl(RetrofitImpl().api),
+                RoomDataBaseImpl(AppDataBase.getDatabase(requireContext())), AndroidNetworkStatus(requireContext())),
                 App.instance.router,
                 AndroidScreens()
         )

@@ -1,4 +1,4 @@
-package com.example.androidlibrary.mvp
+package com.example.androidlibrary.mvp.network
 
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single

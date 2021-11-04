@@ -12,6 +12,9 @@ interface RepositoryDAO {
     fun insertAll(vararg repos: RoomGitHubRepository)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertReposList(repos: List<RoomGitHubRepository>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertUser(repo: RoomGitHubRepository)
 
     @Delete
@@ -23,6 +26,16 @@ interface RepositoryDAO {
     @Update
     fun updateListUsers (repos: List<RoomGitHubRepository>)
 
-    @Query("SELECT * FROM RoomGitHubRepository WHERE login = :login LIMIT 1")
-    fun findByLogin(login: String) : RoomGitHubRepository?
+    @Query("SELECT * FROM RoomGitHubRepository WHERE id = :id LIMIT 1")
+    fun findById(id: Int) : RoomGitHubRepository?
+
+    @Query("SELECT * FROM RoomGitHubRepository WHERE url = :url LIMIT 1")
+    fun findByUrl(url: String?) : RoomGitHubRepository?
+
+    @Query("SELECT * FROM RoomGitHubRepository WHERE userUrl = :reposUrl")
+    fun findForUserRepo(reposUrl: String?): List<RoomGitHubRepository>
+
+
+
+
 }

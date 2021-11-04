@@ -8,6 +8,6 @@ import androidx.room.PrimaryKey
 data class RoomGitHubUser (
         @PrimaryKey var id: String,
         var login: String,
-        @ColumnInfo(name = "avatar_url") var avatarUrl: String,
-        @ColumnInfo(name = "repos_url") var reposUrl: String
+        var avatar_url: String,
+        var repos_url: String
 )

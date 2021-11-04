@@ -10,8 +10,6 @@ class App : Application() {
 
     companion object {
         lateinit var instance: App
-        private lateinit var db: AppDataBase
-        const val DB_NAME = "dtabase.db"
     }
 
     private val cicerone: Cicerone<Router> by lazy {
@@ -20,12 +18,8 @@ class App : Application() {
     val navigatorHolder get() = cicerone.getNavigatorHolder()
     val router get() = cicerone.router
 
-    fun getDB(): AppDataBase = db
-
     override fun onCreate() {
         super.onCreate()
         instance = this
-
-        db = Room.databaseBuilder(instance, AppDataBase::class.java, DB_NAME).build()
     }
 }
