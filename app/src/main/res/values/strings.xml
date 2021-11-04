@@ -6,4 +6,10 @@
     <string name="counterText">0</string>
     <string name="login_title">Login </string>
     <string name="onComplete">"onComplete"</string>
+    <string name="detailedUserHeader">List of Repositories</string>
+    <string name="repo_name">Name of Repository</string>
+    <string name="repo_url">Url of Repository</string>
+    <string name="repo_forks_count">Count of forks in this repo</string>
+    <string name="repo_language">Repo language</string>
+    <string name="repo_status">Is it private?</string>
 </resources>

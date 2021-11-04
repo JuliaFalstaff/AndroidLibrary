@@ -1,13 +1,15 @@
-package com.example.androidlibrary.mvp
+package com.example.androidlibrary.mvp.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidlibrary.databinding.UserItemBinding
 import com.example.androidlibrary.mvp.presenter.IUserListPresenter
 import com.example.androidlibrary.mvp.view.IUserItemView
+import com.example.androidlibrary.mvp.view.avatar.IImageLoader
 
-class UsersAdapter(val presenter: IUserListPresenter) :
+class UsersAdapter(val presenter: IUserListPresenter, val imageLoader: IImageLoader<ImageView>) :
     RecyclerView.Adapter<UsersAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -41,6 +43,10 @@ class UsersAdapter(val presenter: IUserListPresenter) :
 
         override fun setLogin(text: String) = with(binding) {
             textViewLogin.text = text
+        }
+
+        override fun loadAvatar(url: String) = with(binding) {
+            imageLoader.loadInto(url, imageViewAvatar)
         }
     }
 }
