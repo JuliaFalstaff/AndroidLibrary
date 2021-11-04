@@ -1,6 +1,5 @@
 package com.example.androidlibrary.mvp.presenter
 
-import android.util.Log
 import com.example.androidlibrary.mvp.model.data.GithubUser
 import com.example.androidlibrary.mvp.model.user.IGitHubUsersRepo
 import com.example.androidlibrary.mvp.view.IScreens
@@ -55,7 +54,7 @@ class UsersPresenter(val usersRepo: IGitHubUsersRepo, val router: Router, val sc
                             usersListPresenter.users.addAll(repos)
                             viewState.updateList()
                         },
-                        { e -> Log.i(RX_TAG, e?.localizedMessage.toString()) },
+                        { e -> viewState.showError(e) },
                 ))
 
     }

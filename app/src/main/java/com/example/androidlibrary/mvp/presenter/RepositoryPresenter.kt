@@ -1,11 +1,10 @@
 package com.example.androidlibrary.mvp.presenter
 
 
-import android.util.Log
 import com.example.androidlibrary.mvp.model.data.GithubRepository
 import com.example.androidlibrary.mvp.model.githubrepositories.IGitHubRepositories
-import com.example.androidlibrary.mvp.view.IRepositoryView
 import com.example.androidlibrary.mvp.view.IRepositoryItemView
+import com.example.androidlibrary.mvp.view.IRepositoryView
 import com.example.androidlibrary.mvp.view.IScreens
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -61,7 +60,7 @@ class RepositoryPresenter(
                             repositoriesListPresenter.repositories.addAll(repos)
                             viewState.updateList()
                         },
-                        { e -> Log.i(UsersPresenter.RX_TAG, e?.localizedMessage.toString()) }
+                        { e -> viewState.showError(e) }
                 )
         )
     }
