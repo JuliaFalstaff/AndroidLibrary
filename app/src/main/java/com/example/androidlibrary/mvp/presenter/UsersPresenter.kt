@@ -1,7 +1,6 @@
 package com.example.androidlibrary.mvp.presenter
 
 import com.example.androidlibrary.mvp.model.data.GithubUser
-import com.example.androidlibrary.mvp.model.room.IGitHubUsersAndRepositories
 import com.example.androidlibrary.mvp.model.user.IGitHubUsersRepo
 import com.example.androidlibrary.mvp.view.IScreens
 import com.example.androidlibrary.mvp.view.IUserItemView
@@ -11,8 +10,8 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
 
-class UsersPresenter(val usersRepo: IGitHubUsersAndRepositories, val router: Router, val screen: IScreens) :
-        MvpPresenter<UsersView>() {
+class UsersPresenter(val usersRepo: IGitHubUsersRepo, val router: Router, val screen: IScreens) :
+    MvpPresenter<UsersView>() {
 
     class UsersListPresenter : IUserListPresenter {
         val users = mutableListOf<GithubUser>()
@@ -47,16 +46,18 @@ class UsersPresenter(val usersRepo: IGitHubUsersAndRepositories, val router: Rou
 
     private fun loadData() {
 
-        disposable.addAll(usersRepo.getUsers()
+        disposable.addAll(
+            usersRepo.getUsersList()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { repos ->
-                            usersListPresenter.users.clear()
-                            usersListPresenter.users.addAll(repos)
-                            viewState.updateList()
-                        },
-                        { e -> viewState.showError(e) },
-                ))
+                    { repos ->
+                        usersListPresenter.users.clear()
+                        usersListPresenter.users.addAll(repos)
+                        viewState.updateList()
+                    },
+                    { e -> viewState.showError(e) },
+                )
+        )
 
     }
 

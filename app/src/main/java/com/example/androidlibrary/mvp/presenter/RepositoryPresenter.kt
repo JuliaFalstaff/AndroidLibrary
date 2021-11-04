@@ -3,7 +3,6 @@ package com.example.androidlibrary.mvp.presenter
 
 import com.example.androidlibrary.mvp.model.data.GithubRepository
 import com.example.androidlibrary.mvp.model.githubrepositories.IGitHubRepositories
-import com.example.androidlibrary.mvp.model.room.IGitHubUsersAndRepositories
 import com.example.androidlibrary.mvp.view.IRepositoryItemView
 import com.example.androidlibrary.mvp.view.IRepositoryView
 import com.example.androidlibrary.mvp.view.IScreens
@@ -14,7 +13,7 @@ import moxy.MvpPresenter
 
 class RepositoryPresenter(
     val repoUrl: String?,
-    val repository: IGitHubUsersAndRepositories,
+    val repository: IGitHubRepositories,
     val router: Router,
     val screen: IScreens,
 ) :

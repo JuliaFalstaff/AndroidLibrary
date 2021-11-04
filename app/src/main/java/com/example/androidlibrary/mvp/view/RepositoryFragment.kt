@@ -1,6 +1,7 @@
 package com.example.androidlibrary.mvp.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,11 +10,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.androidlibrary.App
 import com.example.androidlibrary.databinding.FragmentRepositoryBinding
 import com.example.androidlibrary.mvp.adapter.RepositoriesAdapter
+import com.example.androidlibrary.mvp.model.githubrepositories.GitHubRepositoryImpl
+import com.example.androidlibrary.mvp.model.githubrepositories.RoomGitHubRepositoryCacheImpl
 import com.example.androidlibrary.mvp.model.retrofit.RetrofitImpl
-import com.example.androidlibrary.mvp.model.retrofit.GitHubSourceImpl
-import com.example.androidlibrary.mvp.model.retrofit.RetrofitUsersReposImpl
 import com.example.androidlibrary.mvp.model.room.AppDataBase
-import com.example.androidlibrary.mvp.model.room.RoomDataBaseImpl
 import com.example.androidlibrary.mvp.network.AndroidNetworkStatus
 import com.example.androidlibrary.mvp.presenter.RepositoryPresenter
 import moxy.MvpAppCompatFragment
@@ -38,9 +38,9 @@ class RepositoryFragment : MvpAppCompatFragment(), IRepositoryView,
     val presenter by moxyPresenter {
         RepositoryPresenter(
                 (arguments?.getString(REPO)),
-                GitHubSourceImpl(
-                RetrofitUsersReposImpl(RetrofitImpl().api),
-                RoomDataBaseImpl(AppDataBase.getDatabase(requireContext())), AndroidNetworkStatus(requireContext())),
+            GitHubRepositoryImpl(RetrofitImpl().api,
+                AndroidNetworkStatus(requireContext()),
+                RoomGitHubRepositoryCacheImpl(AppDataBase.getDatabase(requireContext()))),
                 App.instance.router,
                 AndroidScreens()
         )
@@ -77,6 +77,8 @@ class RepositoryFragment : MvpAppCompatFragment(), IRepositoryView,
     }
 
     override fun showError(error: Throwable) {
+
+        Log.e("RX_TAG", error.localizedMessage)
         Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show()
     }
 
