@@ -1,4 +1,4 @@
-package com.example.androidlibrary.mvp.model
+package com.example.androidlibrary.mvp.model.retrofit
 
 import com.example.androidlibrary.mvp.model.data.GithubRepository
 import com.example.androidlibrary.mvp.model.data.GithubUser

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.androidlibrary.App
 import com.example.androidlibrary.databinding.FragmentRepositoryBinding
 import com.example.androidlibrary.mvp.adapter.RepositoriesAdapter
-import com.example.androidlibrary.mvp.model.RetrofitImpl
+import com.example.androidlibrary.mvp.model.retrofit.RetrofitImpl
 import com.example.androidlibrary.mvp.model.githubrepositories.GitHubRepositoryImpl
 import com.example.androidlibrary.mvp.presenter.RepositoryPresenter
 import moxy.MvpAppCompatFragment
