@@ -1,6 +1,7 @@
 package com.example.androidlibrary.mvp.presenter
 
 
+import android.util.Log
 import com.example.androidlibrary.mvp.model.data.GithubRepository
 import com.example.androidlibrary.mvp.model.githubrepositories.IGitHubRepositories
 import com.example.androidlibrary.mvp.view.IRepositoryItemView
@@ -60,7 +61,8 @@ class RepositoryPresenter(
                             repositoriesListPresenter.repositories.addAll(repos)
                             viewState.updateList()
                         },
-                        { e -> viewState.showError(e) }
+                        { e -> viewState.showError(e)
+                            Log.e(RX_TAG, e.stackTraceToString())}
                 )
         )
     }
@@ -68,5 +70,9 @@ class RepositoryPresenter(
     fun onBackCommandClick(): Boolean {
         router.backTo(screen.users())
         return true
+    }
+
+    companion object {
+        const val RX_TAG = "RX_TAG"
     }
 }

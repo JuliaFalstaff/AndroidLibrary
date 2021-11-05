@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase
     exportSchema = false, entities = [
         RoomGitHubUser::class,
         RoomGitHubRepository::class
-    ], version = 5
+    ], version = 7
 )
 abstract class AppDataBase : RoomDatabase() {
     abstract val userDao: UserDAO

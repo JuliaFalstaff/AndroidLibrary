@@ -8,7 +8,7 @@ class RoomGithubUsersCacheImpl(private val db: AppDataBase) : IRoomGitHubUsersCa
     override fun saveToDB(users: List<GithubUser>) {
         val roomUsers = users.map { user ->
             RoomGitHubUser(
-                user.id ?: "",
+                user.id,
                 user.login ?: "",
                 user.avatar_url ?: "",
                 user.repos_url ?: ""

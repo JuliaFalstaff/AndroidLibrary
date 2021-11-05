@@ -11,7 +11,7 @@ class RoomGitHubRepositoryCacheImpl(private val db: AppDataBase) : IRoomGitHubRe
 
         val roomRepositories = repositories.map { repo ->
             RoomGitHubRepository(
-                    repo.id ?: 0,
+                    repo.id,
                     repo.name ?: "",
                     repo.forks_count ?: 0,
                     repo.html_url ?: "",
