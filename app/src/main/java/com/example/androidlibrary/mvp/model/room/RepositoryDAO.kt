@@ -32,6 +32,6 @@ interface RepositoryDAO {
     @Query("SELECT * FROM RoomGitHubRepository WHERE url = :url LIMIT 1")
     fun findByUrl(url: String?): RoomGitHubRepository?
 
-    @Query("SELECT * FROM RoomGitHubRepository WHERE user_url = :reposUrl")
-    fun findForUserRepo(reposUrl: String?): List<RoomGitHubRepository>
+    @Query("SELECT * FROM RoomGitHubRepository WHERE user_id = :userId")
+    fun findForUser(userId: String?): List<RoomGitHubRepository>
 }

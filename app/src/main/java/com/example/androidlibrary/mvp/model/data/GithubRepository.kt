@@ -5,7 +5,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class GithubRepository(
-        val id: Int,
+        val id: String,
         val name: String?,
         val forks_count: Int?,
         val html_url: String?,

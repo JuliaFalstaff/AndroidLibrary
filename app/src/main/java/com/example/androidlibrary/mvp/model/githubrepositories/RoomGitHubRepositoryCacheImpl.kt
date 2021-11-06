@@ -1,40 +1,47 @@
 package com.example.androidlibrary.mvp.model.githubrepositories
 
+import com.example.androidlibrary.R
 import com.example.androidlibrary.mvp.model.data.GithubRepository
+import com.example.androidlibrary.mvp.model.data.GithubUser
 import com.example.androidlibrary.mvp.model.room.AppDataBase
 import com.example.androidlibrary.mvp.model.room.RoomGitHubRepository
 
 class RoomGitHubRepositoryCacheImpl(private val db: AppDataBase) : IRoomGitHubRepositoryCache {
 
+    override fun saveRepositories(repositories: List<GithubRepository>, user: GithubUser?) {
+        val roomUser = user?.login?.let {
+            db.userDao.findByLogin(it)
+        } ?: throw RuntimeException(R.string.error_find_user.toString())
 
-    override fun saveRepositories(repositories: List<GithubRepository>, userUrl: String?) {
-
-        val roomRepositories = repositories.map { repo ->
+        val roomRepositories = repositories.map {
             RoomGitHubRepository(
-                    repo.id,
-                    repo.name ?: "",
-                    repo.forks_count ?: 0,
-                    repo.html_url ?: "",
-                    repo.language ?: "",
-                    userUrl,
-                    repo.url ?: ""
+                it.id,
+                it.name,
+                it.forks_count,
+                it.html_url,
+                it.language,
+                it.url,
+                roomUser.id
             )
         }
         db.repositoryDao.insertReposList(roomRepositories)
     }
 
-    override fun getRepositoriesList(url: String?): List<GithubRepository> {
-        db.repositoryDao.findForUserRepo(url) ?: throw RuntimeException("No such repo in cache")
-        return db.repositoryDao.findForUserRepo(url)
-                .map {
-                    GithubRepository(
-                            it.id,
-                            it.name,
-                            it.forks_count,
-                            it.html_url,
-                            it.language,
-                            it.url
-                    )
-                }
+    override fun getRepositoriesList(user: GithubUser?): List<GithubRepository> {
+        val roomUser = user?.login?.let {
+            db.userDao.findByLogin(it)
+        } ?: throw RuntimeException(R.string.error_find_user.toString())
+
+        return db.repositoryDao.findForUser(roomUser.id)
+            .map {
+                GithubRepository(
+                    it.id,
+                    it.name,
+                    it.forks_count,
+                    it.html_url,
+                    it.language,
+                    it.url
+                )
+            }
     }
 }

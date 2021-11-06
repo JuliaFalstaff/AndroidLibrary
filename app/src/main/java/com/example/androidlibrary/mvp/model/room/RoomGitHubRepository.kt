@@ -1,6 +1,5 @@
 package com.example.androidlibrary.mvp.model.room
 
-import androidx.annotation.NonNull
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
@@ -8,17 +7,18 @@ import androidx.room.PrimaryKey
 @Entity(
     foreignKeys = [ForeignKey(
         entity = RoomGitHubUser::class,
-        parentColumns = ["repos_url"],
-        childColumns = ["user_url"],
+        parentColumns = ["id"],
+        childColumns = ["user_id"],
         onDelete = ForeignKey.CASCADE
     )]
 )
 data class RoomGitHubRepository(
-    @PrimaryKey(autoGenerate = false) var id: Int,
+    @PrimaryKey
+    var id: String,
     var name: String?,
     var forks_count: Int?,
     var html_url: String?,
     var language: String?,
-    var user_url: String?,
-    var url: String?
+    var url: String?,
+    var user_id: String
 )

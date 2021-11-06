@@ -1,6 +1,8 @@
 package com.example.androidlibrary.mvp.model.githubrepositories
 
+import com.example.androidlibrary.R
 import com.example.androidlibrary.mvp.model.data.GithubRepository
+import com.example.androidlibrary.mvp.model.data.GithubUser
 import com.example.androidlibrary.mvp.model.retrofit.RetrofitAPI
 import com.example.androidlibrary.mvp.network.INetworkStatus
 import io.reactivex.rxjava3.core.Single
@@ -11,22 +13,25 @@ class GitHubRepositoryImpl(
     val networkStatus: INetworkStatus,
     val db: IRoomGitHubRepositoryCache
 ) : IGitHubRepositories {
-    override fun getRepositoriesList(url: String?) =
+    override fun getRepositoriesList(user: GithubUser?) =
         networkStatus.isOnlineSingle().flatMap { isOnline ->
             if (isOnline) {
-                url?.let { url ->
+                user?.repos_url?.let { url ->
                     api.loadRepositories(url)
                         .flatMap { repositories ->
                             Single.fromCallable {
-                                db.saveRepositories(repositories, url)
+                                db.saveRepositories(repositories, user)
                                 repositories
                             }
                         }
-                } ?: Single.error<List<GithubRepository>>(RuntimeException("User has no repos url"))
+                        .onErrorReturn {
+                            db.getRepositoriesList(user)
+                        }
+                } ?: Single.error<List<GithubRepository>>(RuntimeException(R.string.error_repo.toString()))
                     .subscribeOn(Schedulers.io())
             } else {
                 Single.fromCallable {
-                    db.getRepositoriesList(url)
+                    db.getRepositoriesList(user)
                 }
             }
         }.subscribeOn(Schedulers.io())

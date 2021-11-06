@@ -12,4 +12,8 @@
     <string name="repo_forks_count">Count of forks in this repo</string>
     <string name="repo_language">Repo language</string>
     <string name="repo_status">Is it private?</string>
+    <string name="error_repo">User has no repos url</string>
+    <string name="error_find_user">No such user in cache</string>
+    <string name="error_instance_db">Database has not been created. Please call create(context)</string>
+    <string name="error_get_db">Database has not been created.</string>
 </resources>

@@ -42,7 +42,7 @@ class UsersPresenter(val usersRepo: IGitHubUsersRepo, val router: Router, val sc
     }
 
     private fun openDetailedUserInfo(userItemView: IUserItemView) {
-        router.navigateTo(screen.detailedUser(usersListPresenter.users[userItemView.positionItem].repos_url))
+        router.navigateTo(screen.detailedUser(usersListPresenter.users[userItemView.positionItem]))
     }
 
     private fun loadData() {
@@ -56,8 +56,10 @@ class UsersPresenter(val usersRepo: IGitHubUsersRepo, val router: Router, val sc
                         usersListPresenter.users.addAll(repos)
                         viewState.updateList()
                     },
-                    { e -> viewState.showError(e)
-                    Log.e(RX_TAG, e.stackTraceToString())},
+                    { e ->
+                        viewState.showError(e)
+                        Log.e(RX_TAG, e.stackTraceToString())
+                    },
                 )
         )
 

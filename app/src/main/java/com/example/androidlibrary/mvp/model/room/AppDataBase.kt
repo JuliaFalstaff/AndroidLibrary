@@ -4,12 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.androidlibrary.R
 
 @Database(
     exportSchema = false, entities = [
         RoomGitHubUser::class,
         RoomGitHubRepository::class
-    ], version = 7
+    ], version = 15
 )
 abstract class AppDataBase : RoomDatabase() {
     abstract val userDao: UserDAO
@@ -19,7 +20,7 @@ abstract class AppDataBase : RoomDatabase() {
         private const val DB_NAME = "database.db"
         private var instance: AppDataBase? = null
         fun getInstance() = instance
-            ?: throw RuntimeException("Database has not been created. Please call create(context)")
+            ?: throw RuntimeException(R.string.error_instance_db.toString())
 
         fun getDatabase(context: Context?): AppDataBase {
             if (instance == null) {
@@ -28,7 +29,7 @@ abstract class AppDataBase : RoomDatabase() {
                         .fallbackToDestructiveMigration()
                         .build()
             }
-            return requireNotNull(instance) { "Database has not been created." }
+            return requireNotNull(instance) { R.string.error_get_db.toString() }
         }
     }
 }

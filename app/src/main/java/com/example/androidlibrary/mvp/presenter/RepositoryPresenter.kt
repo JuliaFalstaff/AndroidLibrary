@@ -3,6 +3,7 @@ package com.example.androidlibrary.mvp.presenter
 
 import android.util.Log
 import com.example.androidlibrary.mvp.model.data.GithubRepository
+import com.example.androidlibrary.mvp.model.data.GithubUser
 import com.example.androidlibrary.mvp.model.githubrepositories.IGitHubRepositories
 import com.example.androidlibrary.mvp.view.IRepositoryItemView
 import com.example.androidlibrary.mvp.view.IRepositoryView
@@ -13,12 +14,12 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
 
 class RepositoryPresenter(
-    val repoUrl: String?,
+    val user: GithubUser?,
     val repository: IGitHubRepositories,
     val router: Router,
     val screen: IScreens,
 ) :
-        MvpPresenter<IRepositoryView>() {
+    MvpPresenter<IRepositoryView>() {
 
     class RepositoriesListPresenter : IRepositoriesListPresenter {
 
@@ -53,17 +54,19 @@ class RepositoryPresenter(
     }
 
     private fun loadData() {
-        disposable.addAll(repository.getRepositoriesList(repoUrl)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { repos ->
-                            repositoriesListPresenter.repositories.clear()
-                            repositoriesListPresenter.repositories.addAll(repos)
-                            viewState.updateList()
-                        },
-                        { e -> viewState.showError(e)
-                            Log.e(RX_TAG, e.stackTraceToString())}
-                )
+        disposable.addAll(repository.getRepositoriesList(user)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { repos ->
+                    repositoriesListPresenter.repositories.clear()
+                    repositoriesListPresenter.repositories.addAll(repos)
+                    viewState.updateList()
+                },
+                { e ->
+                    viewState.showError(e)
+                    Log.e(RX_TAG, e.stackTraceToString())
+                }
+            )
         )
     }
 

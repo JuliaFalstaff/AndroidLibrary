@@ -33,6 +33,4 @@ class GithubUsersRepoImpl(
                     }
                 }.subscribeOn(Schedulers.io())
             }
-//    override fun getUsersList(): Single<List<GithubUser>> = api.loadUsers().subscribeOn(Schedulers.io())
-
 }
