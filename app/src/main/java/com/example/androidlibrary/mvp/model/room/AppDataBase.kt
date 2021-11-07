@@ -22,14 +22,14 @@ abstract class AppDataBase : RoomDatabase() {
         fun getInstance() = instance
             ?: throw RuntimeException(R.string.error_instance_db.toString())
 
-        fun getDatabase(context: Context?): AppDataBase {
-            if (instance == null) {
-                instance =
-                    Room.databaseBuilder(requireNotNull(context), AppDataBase::class.java, DB_NAME)
-                        .fallbackToDestructiveMigration()
-                        .build()
-            }
-            return requireNotNull(instance) { R.string.error_get_db.toString() }
-        }
+//        fun getDatabase(context: Context?): AppDataBase {
+//            if (instance == null) {
+//                instance =
+//                    Room.databaseBuilder(requireNotNull(context), AppDataBase::class.java, DB_NAME)
+//                        .fallbackToDestructiveMigration()
+//                        .build()
+//            }
+//            return requireNotNull(instance) { R.string.error_get_db.toString() }
+//        }
     }
 }
