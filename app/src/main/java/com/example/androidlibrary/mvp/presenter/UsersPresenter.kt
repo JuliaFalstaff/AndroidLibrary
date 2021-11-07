@@ -1,5 +1,6 @@
 package com.example.androidlibrary.mvp.presenter
 
+import android.util.Log
 import com.example.androidlibrary.mvp.model.data.GithubUser
 import com.example.androidlibrary.mvp.model.user.IGitHubUsersRepo
 import com.example.androidlibrary.mvp.view.IScreens
@@ -11,7 +12,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
 
 class UsersPresenter(val usersRepo: IGitHubUsersRepo, val router: Router, val screen: IScreens) :
-        MvpPresenter<UsersView>() {
+    MvpPresenter<UsersView>() {
 
     class UsersListPresenter : IUserListPresenter {
         val users = mutableListOf<GithubUser>()
@@ -41,21 +42,26 @@ class UsersPresenter(val usersRepo: IGitHubUsersRepo, val router: Router, val sc
     }
 
     private fun openDetailedUserInfo(userItemView: IUserItemView) {
-        router.navigateTo(screen.detailedUser(usersListPresenter.users[userItemView.positionItem].repos_url))
+        router.navigateTo(screen.detailedUser(usersListPresenter.users[userItemView.positionItem]))
     }
 
     private fun loadData() {
 
-        disposable.addAll(usersRepo.getUsersList()
+        disposable.addAll(
+            usersRepo.getUsersList()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { repos ->
-                            usersListPresenter.users.clear()
-                            usersListPresenter.users.addAll(repos)
-                            viewState.updateList()
-                        },
-                        { e -> viewState.showError(e) },
-                ))
+                    { repos ->
+                        usersListPresenter.users.clear()
+                        usersListPresenter.users.addAll(repos)
+                        viewState.updateList()
+                    },
+                    { e ->
+                        viewState.showError(e)
+                        Log.e(RX_TAG, e.stackTraceToString())
+                    },
+                )
+        )
 
     }
 

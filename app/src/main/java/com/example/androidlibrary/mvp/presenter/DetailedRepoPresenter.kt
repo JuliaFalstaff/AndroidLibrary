@@ -18,7 +18,7 @@ class DetailedRepoPresenter(
         repository?.name.let { viewState.setRepoName(it) }
         repository?.forks_count.let { viewState.setCountOfForks(it) }
         repository?.language.let { viewState.setRepoLanguage(it) }
-        repository?.isPrivate.let { viewState.setRepoStatus(it) }
+//        repository?.isPrivate.let { viewState.setRepoStatus(it) }
     }
 
     fun onBackCommandClick(): Boolean {

@@ -56,11 +56,6 @@ class DetailedRepoFragment : MvpAppCompatFragment(), IDetailedRepoView,
     }
 
     @SuppressLint("SetTextI18n")
-    override fun setRepoStatus(isPrivate: Boolean?) {
-        binding?.textViewRepoIsPrivate?.text = "Is it private: $isPrivate"
-    }
-
-    @SuppressLint("SetTextI18n")
     override fun setRepoLanguage(language: String?) {
         binding?.textViewRepoLanguage?.text = "Language: $language"
     }

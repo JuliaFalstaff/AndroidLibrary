@@ -1,6 +1,7 @@
 package com.example.androidlibrary.mvp.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,19 +10,23 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.androidlibrary.App
 import com.example.androidlibrary.databinding.FragmentRepositoryBinding
 import com.example.androidlibrary.mvp.adapter.RepositoriesAdapter
-import com.example.androidlibrary.mvp.model.RetrofitImpl
+import com.example.androidlibrary.mvp.model.data.GithubUser
 import com.example.androidlibrary.mvp.model.githubrepositories.GitHubRepositoryImpl
+import com.example.androidlibrary.mvp.model.githubrepositories.RoomGitHubRepositoryCacheImpl
+import com.example.androidlibrary.mvp.model.retrofit.RetrofitImpl
+import com.example.androidlibrary.mvp.model.room.AppDataBase
+import com.example.androidlibrary.mvp.network.AndroidNetworkStatus
 import com.example.androidlibrary.mvp.presenter.RepositoryPresenter
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
 class RepositoryFragment : MvpAppCompatFragment(), IRepositoryView,
-        BackButtonListener {
+    BackButtonListener {
     companion object {
         const val REPO = "Repo"
 
-        fun newInstance(repo: String?): RepositoryFragment {
-            val args = Bundle().apply { putString(REPO, repo) }
+        fun newInstance(user: GithubUser?): RepositoryFragment {
+            val args = Bundle().apply { putParcelable(REPO, user) }
             val fragment = RepositoryFragment()
             fragment.arguments = args
             return fragment
@@ -33,21 +38,25 @@ class RepositoryFragment : MvpAppCompatFragment(), IRepositoryView,
 
     val presenter by moxyPresenter {
         RepositoryPresenter(
-                (arguments?.getString(REPO)),
-                GitHubRepositoryImpl(RetrofitImpl().api),
-                App.instance.router,
-                AndroidScreens()
+            (arguments?.getParcelable(REPO)),
+            GitHubRepositoryImpl(
+                RetrofitImpl().api,
+                AndroidNetworkStatus(requireContext()),
+                RoomGitHubRepositoryCacheImpl(AppDataBase.getDatabase(requireContext()))
+            ),
+            App.instance.router,
+            AndroidScreens()
         )
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View =
-            FragmentRepositoryBinding.inflate(inflater, container, false).also {
-                binding = it
-            }.root
+        FragmentRepositoryBinding.inflate(inflater, container, false).also {
+            binding = it
+        }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -71,11 +80,12 @@ class RepositoryFragment : MvpAppCompatFragment(), IRepositoryView,
     }
 
     override fun showError(error: Throwable) {
+
+        Log.e("RX_TAG", error.localizedMessage)
         Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show()
     }
 
     override fun backPressed(): Boolean {
         return presenter.onBackCommandClick()
     }
-
 }

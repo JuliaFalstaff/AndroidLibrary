@@ -1,4 +1,4 @@
-package com.example.androidlibrary.mvp.model
+package com.example.androidlibrary.mvp.model.retrofit
 
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
