@@ -8,6 +8,5 @@ import moxy.viewstate.strategy.StateStrategyType
 interface IDetailedRepoView : MvpView {
     fun setCountOfForks(count: Int?)
     fun setRepoName(name: String?)
-//    fun setRepoStatus(isPrivate: Boolean?)
     fun setRepoLanguage(language: String?)
 }

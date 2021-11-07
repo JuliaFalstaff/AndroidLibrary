@@ -9,43 +9,38 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.androidlibrary.App
 import com.example.androidlibrary.databinding.FragmentUsersBinding
 import com.example.androidlibrary.mvp.adapter.UsersAdapter
-import com.example.androidlibrary.mvp.model.retrofit.RetrofitImpl
 import com.example.androidlibrary.mvp.model.room.AppDataBase
-import com.example.androidlibrary.mvp.model.user.GithubUsersRepoImpl
-import com.example.androidlibrary.mvp.model.user.RoomGithubUsersCacheImpl
-import com.example.androidlibrary.mvp.network.AndroidNetworkStatus
 import com.example.androidlibrary.mvp.presenter.UsersPresenter
 import com.example.androidlibrary.mvp.view.avatar.GlideImageLoader
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
-
+import javax.inject.Inject
 
 class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     companion object {
         fun newInstance() = UsersFragment()
     }
 
+    @Inject
+    lateinit var dataBase: AppDataBase
+
     private var binding: FragmentUsersBinding? = null
+
     val presenter by moxyPresenter {
-        UsersPresenter(
-            GithubUsersRepoImpl(RetrofitImpl().api,
-                AndroidNetworkStatus(requireContext()),
-                RoomGithubUsersCacheImpl(AppDataBase.getDatabase(requireContext()))
-            ),
-                App.instance.router,
-                AndroidScreens()
-        )
+        UsersPresenter().apply {
+            App.instance.appComponent.inject(this)
+        }
     }
     private var adapter: UsersAdapter? = null
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View =
-            FragmentUsersBinding.inflate(inflater, container, false).also {
-                binding = it
-            }.root
+        FragmentUsersBinding.inflate(inflater, container, false).also {
+            binding = it
+        }.root
 
     override fun init() {
         binding?.run {

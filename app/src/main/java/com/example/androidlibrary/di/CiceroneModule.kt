@@ -15,17 +15,17 @@ class CiceroneModule {
     private val cicerone: Cicerone<Router> = Cicerone.create()
 
     @Provides
-    fun cicerone() : Cicerone<Router> = cicerone
+    fun cicerone(): Cicerone<Router> = cicerone
 
     @Provides
     @Singleton
-    fun navigatorHolder() : NavigatorHolder = cicerone.getNavigatorHolder()
+    fun navigatorHolder(): NavigatorHolder = cicerone.getNavigatorHolder()
 
     @Provides
     @Singleton
-    fun router() : Router = cicerone.router
+    fun router(): Router = cicerone.router
 
     @Provides
     @Singleton
-    fun screens() : IScreens = AndroidScreens()
+    fun screens(): IScreens = AndroidScreens()
 }

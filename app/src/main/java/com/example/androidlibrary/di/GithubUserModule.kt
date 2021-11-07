@@ -14,8 +14,10 @@ class GithubUserModule {
 
     @Singleton
     @Provides
-    fun getUsersList(api: RetrofitAPI ,
-                    networkStatus: INetworkStatus,
-                    db: IRoomGitHubUsersCache): IGitHubUsersRepo = GithubUsersRepoImpl(api, networkStatus, db)
+    fun getUsersList(
+        api: RetrofitAPI,
+        networkStatus: INetworkStatus,
+        db: IRoomGitHubUsersCache
+    ): IGitHubUsersRepo = GithubUsersRepoImpl(api, networkStatus, db)
 }
 

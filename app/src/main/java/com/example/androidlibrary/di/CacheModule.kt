@@ -2,6 +2,8 @@ package com.example.androidlibrary.di
 
 import androidx.room.Room
 import com.example.androidlibrary.App
+import com.example.androidlibrary.mvp.model.githubrepositories.IRoomGitHubRepositoryCache
+import com.example.androidlibrary.mvp.model.githubrepositories.RoomGitHubRepositoryCacheImpl
 import com.example.androidlibrary.mvp.model.room.AppDataBase
 import com.example.androidlibrary.mvp.model.user.IRoomGitHubUsersCache
 import com.example.androidlibrary.mvp.model.user.RoomGithubUsersCacheImpl
@@ -17,17 +19,18 @@ class CacheModule {
     fun database(app: App): AppDataBase = Room.databaseBuilder(
         app,
         AppDataBase::class.java,
-        "database.db")
+        "database.db"
+    )
         .fallbackToDestructiveMigration()
         .build()
 
     @Singleton
     @Provides
-    fun usersCache(database: AppDataBase) : IRoomGitHubUsersCache = RoomGithubUsersCacheImpl(database)
+    fun usersCache(database: AppDataBase): IRoomGitHubUsersCache =
+        RoomGithubUsersCacheImpl(database)
 
-//Надо ли userDao()? 49:56 //FIXME
-
-
-
-
+    @Singleton
+    @Provides
+    fun repositoriesCache(database: AppDataBase): IRoomGitHubRepositoryCache =
+        RoomGitHubRepositoryCacheImpl(database)
 }

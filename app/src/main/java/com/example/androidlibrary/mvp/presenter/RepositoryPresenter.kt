@@ -12,14 +12,13 @@ import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
+import javax.inject.Inject
 
-class RepositoryPresenter(
-    val user: GithubUser?,
-    val repository: IGitHubRepositories,
-    val router: Router,
-    val screen: IScreens,
-) :
-    MvpPresenter<IRepositoryView>() {
+class RepositoryPresenter(val user: GithubUser?) : MvpPresenter<IRepositoryView>() {
+
+    @Inject lateinit var repository: IGitHubRepositories
+    @Inject lateinit var router: Router
+    @Inject lateinit var screen: IScreens
 
     class RepositoriesListPresenter : IRepositoriesListPresenter {
 

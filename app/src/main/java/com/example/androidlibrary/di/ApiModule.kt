@@ -22,6 +22,7 @@ class ApiModule {
 
     @Provides
     fun api(@Named("baseUrl") baseUrl: String) : RetrofitAPI = Retrofit.Builder()
+        .baseUrl(baseUrl)
         .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
         .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
         .build()
@@ -30,8 +31,4 @@ class ApiModule {
     @Singleton
     @Provides
     fun networkStatus(app: App) : INetworkStatus = AndroidNetworkStatus(app)
-
-
-
 }
-
