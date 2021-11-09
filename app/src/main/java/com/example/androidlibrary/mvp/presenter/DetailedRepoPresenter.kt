@@ -23,7 +23,7 @@ class DetailedRepoPresenter(val repository: GithubRepository?) : MvpPresenter<ID
     }
 
     fun onBackCommandClick(): Boolean {
-        router.backTo(screen.users())
+        router.exit()
         return true
     }
 }
