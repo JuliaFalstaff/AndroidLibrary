@@ -72,9 +72,14 @@ class RepositoryPresenter(val user: GithubUser?) : MvpPresenter<IRepositoryView>
     }
 
     fun onBackCommandClick(): Boolean {
-        repositoryScopeContainer.releaseRepositoryScope()
         router.exit()
         return true
+    }
+
+    override fun onDestroy() {
+        repositoryScopeContainer.releaseRepositoryScope()
+        super.onDestroy()
+        disposable.clear()
     }
 
     companion object {
