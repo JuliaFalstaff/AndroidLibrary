@@ -1,6 +1,7 @@
 package com.example.androidlibrary.mvp.presenter
 
 import android.util.Log
+import com.example.androidlibrary.di.users.IUserScopeContainer
 import com.example.androidlibrary.mvp.model.data.GithubUser
 import com.example.androidlibrary.mvp.model.user.IGitHubUsersRepo
 import com.example.androidlibrary.mvp.view.IScreens
@@ -18,6 +19,8 @@ class UsersPresenter() :
     @Inject lateinit var usersRepo: IGitHubUsersRepo
     @Inject lateinit var router: Router
     @Inject lateinit var screen: IScreens
+
+    @Inject lateinit var usersScopeContainer: IUserScopeContainer
 
     class UsersListPresenter : IUserListPresenter {
         val users = mutableListOf<GithubUser>()
@@ -76,6 +79,7 @@ class UsersPresenter() :
     }
 
     override fun onDestroy() {
+        usersScopeContainer.releaseUsersScope()
         super.onDestroy()
         disposable.clear()
     }
