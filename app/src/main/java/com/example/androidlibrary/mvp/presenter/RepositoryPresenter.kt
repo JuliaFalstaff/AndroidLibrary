@@ -2,6 +2,7 @@ package com.example.androidlibrary.mvp.presenter
 
 
 import android.util.Log
+import com.example.androidlibrary.di.repos.IRepositoryScopeContainer
 import com.example.androidlibrary.mvp.model.data.GithubRepository
 import com.example.androidlibrary.mvp.model.data.GithubUser
 import com.example.androidlibrary.mvp.model.githubrepositories.IGitHubRepositories
@@ -19,6 +20,7 @@ class RepositoryPresenter(val user: GithubUser?) : MvpPresenter<IRepositoryView>
     @Inject lateinit var repository: IGitHubRepositories
     @Inject lateinit var router: Router
     @Inject lateinit var screen: IScreens
+    @Inject lateinit var repositoryScopeContainer: IRepositoryScopeContainer
 
     class RepositoriesListPresenter : IRepositoriesListPresenter {
 
@@ -72,6 +74,12 @@ class RepositoryPresenter(val user: GithubUser?) : MvpPresenter<IRepositoryView>
     fun onBackCommandClick(): Boolean {
         router.exit()
         return true
+    }
+
+    override fun onDestroy() {
+        repositoryScopeContainer.releaseRepositoryScope()
+        super.onDestroy()
+        disposable.clear()
     }
 
     companion object {

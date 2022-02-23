@@ -1,16 +1,14 @@
 package com.example.androidlibrary
 
 import android.app.Application
-import androidx.room.Room
-import com.example.androidlibrary.di.AppComponent
-import com.example.androidlibrary.di.AppModule
-import com.example.androidlibrary.di.DaggerAppComponent
-import com.example.androidlibrary.mvp.model.room.AppDataBase
+import com.example.androidlibrary.di.*
+import com.example.androidlibrary.di.repos.IRepositoryScopeContainer
+import com.example.androidlibrary.di.repos.RepositorySubcomponent
+import com.example.androidlibrary.di.users.IUserScopeContainer
+import com.example.androidlibrary.di.users.UsersSubcomponent
 import com.facebook.stetho.Stetho
-import com.github.terrakok.cicerone.Cicerone
-import com.github.terrakok.cicerone.Router
 
-class App : Application() {
+class App : Application(), IUserScopeContainer, IRepositoryScopeContainer {
 
     companion object {
         lateinit var instance: App
@@ -18,13 +16,33 @@ class App : Application() {
 
     lateinit var appComponent: AppComponent
 
+    var usersSubcomponent: UsersSubcomponent? = null
+    var repositorySubcomponent: RepositorySubcomponent? = null
+
+
     override fun onCreate() {
         super.onCreate()
         instance = this
         appComponent = DaggerAppComponent.builder()
-            .appModule(AppModule(this))
-            .build()
+                .appModule(AppModule(this))
+                .build()
 
         Stetho.initializeWithDefaults(this)
+    }
+
+    fun initUserSubComponent() = appComponent.usersSubcomponent().also {
+        usersSubcomponent = it
+    }
+
+    fun initReposSubComponent() = usersSubcomponent?.repositorySubcomponent().also {
+        repositorySubcomponent = it
+    }
+
+    override fun releaseUsersScope() {
+        usersSubcomponent = null
+    }
+
+    override fun releaseRepositoryScope() {
+        repositorySubcomponent = null
     }
 }

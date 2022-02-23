@@ -30,7 +30,7 @@ class RepositoryFragment : MvpAppCompatFragment(), IRepositoryView,
 
     val presenter by moxyPresenter {
         RepositoryPresenter(arguments?.getParcelable(REPO)).apply {
-            App.instance.appComponent.inject(this)
+            App.instance.initReposSubComponent()?.inject(this)
         }
     }
 

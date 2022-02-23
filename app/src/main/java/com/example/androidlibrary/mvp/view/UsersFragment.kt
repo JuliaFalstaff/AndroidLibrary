@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.androidlibrary.App
 import com.example.androidlibrary.databinding.FragmentUsersBinding
+import com.example.androidlibrary.di.users.UsersSubcomponent
 import com.example.androidlibrary.mvp.adapter.UsersAdapter
 import com.example.androidlibrary.mvp.model.room.AppDataBase
 import com.example.androidlibrary.mvp.presenter.UsersPresenter
@@ -25,10 +26,12 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     lateinit var dataBase: AppDataBase
 
     private var binding: FragmentUsersBinding? = null
+    var usersSubcomponent: UsersSubcomponent? = null
 
     val presenter by moxyPresenter {
         UsersPresenter().apply {
-            App.instance.appComponent.inject(this)
+            usersSubcomponent = App.instance.initUserSubComponent()
+            usersSubcomponent?.inject(this)
         }
     }
     private var adapter: UsersAdapter? = null
