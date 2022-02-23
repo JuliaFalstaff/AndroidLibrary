@@ -11,11 +11,6 @@ import com.example.androidlibrary.App
 import com.example.androidlibrary.databinding.FragmentRepositoryBinding
 import com.example.androidlibrary.mvp.adapter.RepositoriesAdapter
 import com.example.androidlibrary.mvp.model.data.GithubUser
-import com.example.androidlibrary.mvp.model.githubrepositories.GitHubRepositoryImpl
-import com.example.androidlibrary.mvp.model.githubrepositories.RoomGitHubRepositoryCacheImpl
-import com.example.androidlibrary.mvp.model.retrofit.RetrofitImpl
-import com.example.androidlibrary.mvp.model.room.AppDataBase
-import com.example.androidlibrary.mvp.network.AndroidNetworkStatus
 import com.example.androidlibrary.mvp.presenter.RepositoryPresenter
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
@@ -25,11 +20,8 @@ class RepositoryFragment : MvpAppCompatFragment(), IRepositoryView,
     companion object {
         const val REPO = "Repo"
 
-        fun newInstance(user: GithubUser?): RepositoryFragment {
-            val args = Bundle().apply { putParcelable(REPO, user) }
-            val fragment = RepositoryFragment()
-            fragment.arguments = args
-            return fragment
+        fun newInstance(user: GithubUser?) = RepositoryFragment().apply {
+            arguments = Bundle().apply { putParcelable(REPO, user) }
         }
     }
 
@@ -37,16 +29,9 @@ class RepositoryFragment : MvpAppCompatFragment(), IRepositoryView,
     private var adapter: RepositoriesAdapter? = null
 
     val presenter by moxyPresenter {
-        RepositoryPresenter(
-            (arguments?.getParcelable(REPO)),
-            GitHubRepositoryImpl(
-                RetrofitImpl().api,
-                AndroidNetworkStatus(requireContext()),
-                RoomGitHubRepositoryCacheImpl(AppDataBase.getDatabase(requireContext()))
-            ),
-            App.instance.router,
-            AndroidScreens()
-        )
+        RepositoryPresenter(arguments?.getParcelable(REPO)).apply {
+            App.instance.appComponent.inject(this)
+        }
     }
 
     override fun onCreateView(

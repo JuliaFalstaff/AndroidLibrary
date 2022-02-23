@@ -2,6 +2,9 @@ package com.example.androidlibrary
 
 import android.app.Application
 import androidx.room.Room
+import com.example.androidlibrary.di.AppComponent
+import com.example.androidlibrary.di.AppModule
+import com.example.androidlibrary.di.DaggerAppComponent
 import com.example.androidlibrary.mvp.model.room.AppDataBase
 import com.facebook.stetho.Stetho
 import com.github.terrakok.cicerone.Cicerone
@@ -13,15 +16,15 @@ class App : Application() {
         lateinit var instance: App
     }
 
-    private val cicerone: Cicerone<Router> by lazy {
-        Cicerone.create()
-    }
-    val navigatorHolder get() = cicerone.getNavigatorHolder()
-    val router get() = cicerone.router
+    lateinit var appComponent: AppComponent
 
     override fun onCreate() {
         super.onCreate()
         instance = this
+        appComponent = DaggerAppComponent.builder()
+            .appModule(AppModule(this))
+            .build()
+
         Stetho.initializeWithDefaults(this)
     }
 }

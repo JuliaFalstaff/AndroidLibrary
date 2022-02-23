@@ -12,34 +12,32 @@ import com.example.androidlibrary.mvp.presenter.DetailedRepoPresenter
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
-class DetailedRepoFragment : MvpAppCompatFragment(), IDetailedRepoView,
-        BackButtonListener {
+class DetailedRepoFragment : MvpAppCompatFragment(), IDetailedRepoView, BackButtonListener {
 
     companion object {
         const val REPO = "REPO"
 
-        fun newInstance(repo: GithubRepository): DetailedRepoFragment {
-            val args = Bundle().apply { putParcelable(REPO, repo) }
-            val fragment = DetailedRepoFragment()
-            fragment.arguments = args
-            return fragment
+        fun newInstance(repo: GithubRepository) = DetailedRepoFragment().apply {
+            arguments = Bundle().apply { putParcelable(REPO, repo) }
         }
     }
 
     private var binding: FragmentDetailedRepoBinding? = null
 
     val presenter by moxyPresenter {
-        DetailedRepoPresenter(
-                arguments?.getParcelable(REPO),
-                App.instance.router,
-                AndroidScreens()
-        )
+        DetailedRepoPresenter(arguments?.getParcelable(REPO)).apply {
+            App.instance.appComponent.inject(this)
+        }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            FragmentDetailedRepoBinding.inflate(inflater, container, false).also {
-                binding = it
-            }.root
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? =
+        FragmentDetailedRepoBinding.inflate(inflater, container, false).also {
+            binding = it
+        }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
